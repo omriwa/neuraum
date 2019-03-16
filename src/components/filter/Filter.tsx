@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+﻿import React, { useState, memo } from "react";
 
 export interface IFilterProps {
     name: string;
@@ -28,7 +28,10 @@ const Filter = (props: IFilterProps) => {
             props.onSort(newFilterMode === 1);
         }
     };
-    return <span onClick={onClick}>
+    return <span
+        className="filter"
+        onClick={onClick}
+    >
 
         <span>
             {
@@ -38,10 +41,10 @@ const Filter = (props: IFilterProps) => {
 
         <span>
             {
-                filterMode === 1 ? "increase" : ""
+                filterMode === 1 ? "↑" : ""
             }
             {
-                filterMode === -1 ? "decrease" : ""
+                filterMode === -1 ? "↓" : ""
             }
         </span>
 

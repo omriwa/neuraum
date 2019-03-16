@@ -3,9 +3,12 @@ import React, { Component } from 'react';
 import * as IAppInterfaces from "./appInterfaces";
 // components
 import * as AppComponents from "./components/index";
+import FiltersSection from './components/filter/FiltersSection';
+import { IFilterProps } from './components/filter/Filter';
 
 class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> {
-    private colsName;
+    private columnsName: string[];
+    private filtersKey: string[];
 
     constructor(props) {
         super(props);
@@ -13,13 +16,22 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
         this.state = {
             vendors: []
         }
-        this.colsName = [
+        // set cols name
+        this.columnsName = [
             "House ID",
             "Image",
             "Name",
             "Price",
             "Size",
         ]
+        // set filter keys
+        this.filtersKey = [
+            "internalId",
+            "imageSrc",
+            "name",
+            "price",
+            "livingAreaTotal"
+        ];
     }
 
     componentDidMount() {
@@ -121,14 +133,25 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
         this.setState({
             vendors: vendorsCopy
         });
-    }
+    } 
 
     render() {
         return (
             <div className="App">
 
                 <div>
-              
+                    <FiltersSection
+                        filters={
+                            this.columnsName.map((name, i) => {
+                                const filterProps: IFilterProps = {
+                                    name,
+                                    onSort: (increase: boolean) => this.onSort(this.filtersKey[i], increase)
+                                };
+
+                                return filterProps;
+                            })
+                        }
+                    />
                 </div>
 
                 <div>
@@ -136,7 +159,7 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
                     this.state.vendors.map(singleVendor => {
                         return <AppComponents.Vendor
                             key={singleVendor.vendorData.identity.name}
-                            columnsName={this.colsName}
+                            columnsName={this.columnsName}
                             vendor={singleVendor}
                             onChangePrice={this.onChangePrice}
                         />
