@@ -1,12 +1,13 @@
 import React, { memo } from "react";
 // interface
-import { IVendor } from '../appInterfaces';
+import { IVendor } from '../../appInterfaces';
 // components
-import Table from './table/Table';
+import Table from '../table/Table';
 
 interface IVendorProps {
     vendor: IVendor;
     onChangePrice: (price: number, internalId: number, vendorName: string) => void;
+    columnsName: string[];
 }
 
 const Vendor = (props: IVendorProps) => {
@@ -31,15 +32,7 @@ const Vendor = (props: IVendorProps) => {
 
         <Table
             vendor={props.vendor}
-            columnsName={
-                [
-                    "House ID",
-                    "Image",
-                    "Name",
-                    "Price",
-                    "Size",
-                ]
-            }
+            columnsName={props.columnsName}
             style={tableStyle}
             onChangePrice={props.onChangePrice}
 />

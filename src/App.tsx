@@ -2,16 +2,24 @@ import React, { Component } from 'react';
 // interfaces
 import * as IAppInterfaces from "./appInterfaces";
 // components
-import Table from "./components/table/Table";
-import Vendor from './components/Vendor';
+import * as AppComponents from "./components/index";
 
 class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> {
+    private colsName;
+
     constructor(props) {
         super(props);
 
         this.state = {
             vendors: []
         }
+        this.colsName = [
+            "House ID",
+            "Image",
+            "Name",
+            "Price",
+            "Size",
+        ]
     }
 
     componentDidMount() {
@@ -39,7 +47,7 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
             });
     }
 
-    private getVendors= (vendors: any): IAppInterfaces.IVendor[] => {
+    private getVendors = (vendors: any): IAppInterfaces.IVendor[] => {
         return (Object as any).keys(vendors).map(vendorKey => {
             return this.getSingleVendor(
                 {
@@ -92,18 +100,50 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
         });
     }
 
+    private onSort = (key: string, increase: boolean): void => {
+        let vendorsCopy = [...this.state.vendors];
+        // sort vendors houses
+        vendorsCopy.forEach((vendor: IAppInterfaces.IVendor) => {
+            if (typeof vendor.vendorData.houses[0][key] === "string") {
+                vendor.vendorData.houses.sort(
+                    (house1: IAppInterfaces.IHouse, house2: IAppInterfaces.IHouse) => (increase ? 1 : -1) * (house1[key] as string).localeCompare(house2[key])
+                )
+            }
+            else {
+                vendor.vendorData.houses.sort(
+                    (house1: IAppInterfaces.IHouse, house2: IAppInterfaces.IHouse) => (increase ? 1 : -1) * (house1[key] - house2[key])
+                )
+            }
+        });
+        // deep copy
+        vendorsCopy = JSON.parse(JSON.stringify(vendorsCopy))
+        // set sorted vendors
+        this.setState({
+            vendors: vendorsCopy
+        });
+    }
+
     render() {
         return (
             <div className="App">
+
+                <div>
+              
+                </div>
+
+                <div>
                 {
                     this.state.vendors.map(singleVendor => {
-                        return <Vendor
+                        return <AppComponents.Vendor
                             key={singleVendor.vendorData.identity.name}
+                            columnsName={this.colsName}
                             vendor={singleVendor}
                             onChangePrice={this.onChangePrice}
                         />
                     })
-                }
+                    }
+                </div>
+
             </div>
         );
     }
