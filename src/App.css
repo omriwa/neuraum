@@ -20,6 +20,10 @@ table {
     text-align: left;
 }
 
+table td:nth-of-type(2) {
+    text-align: center;
+}
+
 .vendor-idendity {
     padding: 10px;
 }
@@ -38,7 +42,11 @@ span.filter {
     text-align: right;
 }
 
-span.filter-arrow {
-    width: 5px;
-    display: inline-block;
-}
+    .filter-section span:first-of-type {
+        margin-right: 5px;
+    }
+
+    span.filter-arrow {
+        width: 5px;
+        display: inline-block;
+    }

@@ -12,6 +12,9 @@ const FilterSection = (props: IFilterSectionProps) => {
     return <div
         className="filter-section"
     >
+        <span>
+            Sort all by
+        </span>
         {
             props.filters.map(filter => <Filter
                 key={filter.name}
