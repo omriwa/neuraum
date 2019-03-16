@@ -7,13 +7,12 @@ import TableRow from "./Row";
 interface ITableProps {
     vendor: IVendor;
     columnsName: string[];
-    style: React.CSSProperties;
     onChangePrice: (price: number, internalId: number, vendorName: string) => void;
 }
 
 const Table = (props: ITableProps) => {
     return <div
-        style={props.style}
+        className="table-container"
     >
 
         <table>
@@ -26,10 +25,19 @@ const Table = (props: ITableProps) => {
                 </tr>
             </thead>
 
+        </table>
+
+        <div
+            className="t-body"
+        >
+
+        <table>
+
             <tbody>
                 {
                     props.vendor.vendorData.houses.map((house: IHouse) => {
                         return <TableRow
+                            key={house.internalId}
                             house={house}
                             onChangePrice={props.onChangePrice}
                         />
@@ -37,7 +45,9 @@ const Table = (props: ITableProps) => {
                 }
             </tbody>
 
-        </table>
+            </table>
+
+        </div>
 
     </div>
 }

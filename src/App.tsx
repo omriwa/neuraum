@@ -5,6 +5,8 @@ import * as IAppInterfaces from "./appInterfaces";
 import * as AppComponents from "./components/index";
 import FiltersSection from './components/filter/FiltersSection';
 import { IFilterProps } from './components/filter/Filter';
+// style
+import "./App.css";
 
 class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> {
     private columnsName: string[];
@@ -14,7 +16,8 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
         super(props);
 
         this.state = {
-            vendors: []
+            vendors: [],
+            update: []
         }
         // set cols name
         this.columnsName = [
@@ -95,11 +98,15 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
     private onChangePrice = (price: number, internalId: number, vendorName: string): void => {
         const newVendors = [...this.state.vendors],
             vendorIndex = this.state.vendors.findIndex(
-            (vendor: IAppInterfaces.IVendor) => vendor.vendorData.identity.name === vendorName
-        ),
+                (vendor: IAppInterfaces.IVendor) => vendor.vendorData.identity.name === vendorName
+            ),
             vendorCopy = { ...this.state.vendors[vendorIndex] },
             houseIndex = vendorCopy.vendorData.houses.findIndex((house: IAppInterfaces.IHouse) => house.internalId === internalId),
-            houseCopy = { ...vendorCopy.vendorData.houses[houseIndex] };
+            houseCopy = { ...vendorCopy.vendorData.houses[houseIndex] },
+            updateHouse: IAppInterfaces.IUpdatedHouse = {
+                price,
+                id: houseCopy.internalId
+            }
         // change the price of the house
         houseCopy.price = price;
         // replace the house copy in vendor copy
@@ -108,7 +115,8 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
         newVendors[vendorIndex] = vendorCopy;
         // set state
         this.setState({
-            vendors: newVendors
+            vendors: newVendors,
+            update: [...this.state.update, updateHouse]
         });
     }
 
@@ -134,6 +142,13 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
             vendors: vendorsCopy
         });
     } 
+
+    private onSave = () => {
+        const output = {
+            update: this.state.update
+        }
+        console.log(JSON.stringify(output));
+    }
 
     render() {
         return (
@@ -167,6 +182,11 @@ class App extends Component<IAppInterfaces.IAppProps, IAppInterfaces.IAppState> 
                     }
                 </div>
 
+                <button
+                    onClick={this.onSave}
+                >
+                    Save!
+                    </button>
             </div>
         );
     }

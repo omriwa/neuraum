@@ -9,7 +9,9 @@ export interface IFilterSectionProps {
 }
 
 const FilterSection = (props: IFilterSectionProps) => {
-    return <React.Fragment>
+    return <div
+        className="filter-section"
+    >
         {
             props.filters.map(filter => <Filter
                 key={filter.name}
@@ -18,7 +20,7 @@ const FilterSection = (props: IFilterSectionProps) => {
             />
             )
         }
-    </React.Fragment>
+    </div>
 }
 
 export default memo(FilterSection);

@@ -39,7 +39,9 @@ const Filter = (props: IFilterProps) => {
             }
         </span>
 
-        <span>
+        <span
+            className="filter-arrow"
+        >
             {
                 filterMode === 1 ? "↑" : ""
             }

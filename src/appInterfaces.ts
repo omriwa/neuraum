@@ -3,6 +3,11 @@ export interface IParsedResult {
     results: any[];
 }
 
+export interface IUpdatedHouse {
+    id: number;
+    price: number;
+}
+
 export interface IVendorIdentity {
     name: string;
     logo: {
@@ -33,4 +38,5 @@ export interface IAppProps {
 
 export interface IAppState {
     vendors: IVendor[];
+    update: IUpdatedHouse[];
 }

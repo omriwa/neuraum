@@ -11,17 +11,14 @@ interface IVendorProps {
 }
 
 const Vendor = (props: IVendorProps) => {
-    const tableStyle = {
-        height: 300,
-        overflowY: "scroll" as "scroll"
-    }
-
     return <div
         key={props.vendor.vendorData.identity.name}
         className="vendor-section"
     >
         <hr />
-        <div>
+        <div
+            className="vendor-idendity"
+        >
             <img
                 src={props.vendor.vendorData.identity.logo["max-140x50"]}
             />
@@ -33,7 +30,6 @@ const Vendor = (props: IVendorProps) => {
         <Table
             vendor={props.vendor}
             columnsName={props.columnsName}
-            style={tableStyle}
             onChangePrice={props.onChangePrice}
 />
 
